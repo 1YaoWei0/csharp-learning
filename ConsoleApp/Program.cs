@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,10 +18,13 @@ namespace ConsoleApp1
             Console.WriteLine($"Hello {fName} of {city}!");
             // The example displays the following output:
             //      Hello John of Boston!
-            var (_, _, _, pop1, _, pop2) = Person.QueryCityDataForYears("New York City", 1960, 2010);
+            var (_, _, _, pop1, _, pop2) = Person.QueryCityDataForYearsCIL("New York City", 1960, 2010);
 
             Console.WriteLine($"Population change, 1960 to 2010: {pop2 - pop1:N0}");
 
+            var (_, _, _, pop3, _, pop4) = Person.QueryCityDataForYears("New York City", 1960, 2010);
+
+            Console.WriteLine($"Population change, 1960 to 2010: {pop4 - pop3:N0}");
         }
     }
 
@@ -67,6 +71,36 @@ namespace ConsoleApp1
         
 
         public  static (string, double, int, int, int, int) QueryCityDataForYears(string name, int year1, int year2)
+        {
+            int population1 = 0, population2 = 0;
+            double area = 0;
+
+            if (name == "New York City")
+            {
+                area = 468.48;
+                if (year1 == 1960)
+                {
+                    population1 = 7781984;
+                }
+                if (year2 == 2010)
+                {
+                    population2 = 8175133;
+                }
+                return (name, area, year1, population1, year2, population2);
+            }
+
+            return ("", 0, 0, 0, 0, 0);
+        }
+
+        /// <summary>
+        /// 这是元组的 CIL 解析后的方法版本
+        /// 尧威 - 04/01/2025
+        /// </summary>
+        /// <param name="name">name</param>
+        /// <param name="year1">year1</param>
+        /// <param name="year2">year2</param>
+        /// <returns>tuple</returns>
+        public static ValueTuple<string, double, int, int, int, int> QueryCityDataForYearsCIL(string name, int year1, int year2)
         {
             int population1 = 0, population2 = 0;
             double area = 0;
